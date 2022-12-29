@@ -39,6 +39,8 @@ public class ProvUserEntity implements Serializable {
 	/** limit. */
 	private Date expirationDate;
 
+
+	private Integer userId;
 	/**
 	 * コンストラクタ.
 	 */

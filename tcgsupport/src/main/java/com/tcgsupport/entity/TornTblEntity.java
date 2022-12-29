@@ -54,6 +54,9 @@ public class TornTblEntity implements Serializable {
 	/** month. */
 	private Integer month;
 
+	/** day. */
+	private Integer day;
+	
 	/** regulation. */
 	private Integer regulation;
 

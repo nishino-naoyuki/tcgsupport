@@ -28,6 +28,8 @@ import lombok.Data;
 @Entity 
 @Table(name="USER_TBL")
 public class UserTblEntity implements Serializable {
+	public static Integer CERTIFICATED = 1;
+	public static Integer ADMIN = 1;
 
 	/** serialVersionUID. */
 	private static final long serialVersionUID = 1L;

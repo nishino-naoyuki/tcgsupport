@@ -3,8 +3,6 @@ package com.tcgsupport.util;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 
 public class Token {

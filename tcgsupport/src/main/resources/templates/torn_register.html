@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- cssの読み込み -->
+    <div id="parent" th:replace="@{/common/include_css}"></div>  
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+		<!-- サイドバー -->
+	    <div id="parent" th:replace="@{/common/sidebar}"></div>  
+
+        <!-- Content Start -->
+        <div class="content">
+            <!-- Navbar Start -->
+            <div id="parent" th:replace="@{/common/navbar}"></div>  
+            <!-- Navbar End -->
+
+
+            <!-- Sale & Revenue Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+	                <div class="col-12 col-sm-12 col-md-11 col-lg-11 col-xl-10">
+	                    <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
+	                    	<h3 class="mb-4">大会作成</h3>
+	                    	<form th:action="@{/auth}" method="POST">
+	                    		<div class="row g-2">
+	                    			<div class="col-md">
+				                        <div class="form-floating mb-4">
+				                            <select class="form-select mb-3 w-90" id="series" aria-label="Floating label select series">
+				                                <option selected value='-1'>指定なし</option>
+												
+				                            </select>
+				                            <label for="series">シリーズ名</label>
+				                        </div>
+	                    			</div>
+	                    			<div class="col-md">
+				                        <div class="form-floating mb-4">
+				                        	<button class="btn btn-primary py-3 w-10 mb-4">新規登録</button>
+				                        </div>
+	                    			</div>
+	                    		</div>
+		                        <div class="form-floating mb-3">
+		                            <input type="text" class="form-control" id="tornname" name="name" placeholder="大会名">
+		                            <label for="tornname">大会名</label>
+		                        </div>
+		                        <div class="form-floating mb-4">
+		                            <input type="text" class="form-control" id="capacity" name="capacity" placeholder="定員">
+		                            <label for="capacity">参加定員</label>
+		                        </div>
+		                        <div class="form-floating mb-4">
+		                            <select class="form-select mb-3" id="local" aria-label="Floating label select 開催地域">
+		                                <option selected>開催地域</option>
+		                                <option value='0'>北海道</option>
+										<option value='1'>青森県</option>
+										<option value='2'>岩手県</option>
+										<option value='3'>宮城県</option>
+										<option value='4'>秋田県</option>
+										<option value='5'>山形県</option>
+										<option value='6'>福島県</option>
+										<option value='7'>茨城県</option>
+										<option value='8'>栃木県</option>
+										<option value='9'>群馬県</option>
+										<option value='10'>埼玉県</option>
+										<option value='11'>千葉県</option>
+										<option value='12'>東京都</option>
+										<option value='13'>神奈川県</option>
+										<option value='14'>新潟県</option>
+										<option value='15'>富山県</option>
+										<option value='16'>石川県</option>
+										<option value='17'>福井県</option>
+										<option value='18'>山梨県</option>
+										<option value='19'>長野県</option>
+										<option value='20'>岐阜県</option>
+										<option value='21'>静岡県</option>
+										<option value='22'>愛知県</option>
+										<option value='23'>三重県</option>
+										<option value='24'>滋賀県</option>
+										<option value='25'>京都府</option>
+										<option value='26'>大阪府</option>
+										<option value='27'>兵庫県</option>
+										<option value='28'>奈良県</option>
+										<option value='29'>和歌山県</option>
+										<option value='30'>鳥取県</option>
+										<option value='31'>島根県</option>
+										<option value='32'>岡山県</option>
+										<option value='33'>広島県</option>
+										<option value='34'>山口県</option>
+										<option value='35'>徳島県</option>
+										<option value='36'>香川県</option>
+										<option value='37'>愛媛県</option>
+										<option value='38'>高知県</option>
+										<option value='39'>福岡県</option>
+										<option value='40'>佐賀県</option>
+										<option value='41'>長崎県</option>
+										<option value='42'>熊本県</option>
+										<option value='43'>大分県</option>
+										<option value='44'>宮崎県</option>
+										<option value='45'>鹿児島県</option>
+										<option value='46'>沖縄県</option>
+		                            </select>
+		                            <label for="local">開催地域</label>
+		                        </div>
+		                        <div class="form-floating mb-4">
+		                            <input type="date" class="form-control" id="date" name="date" placeholder="開催日">
+		                            <label for="date">開催日</label>
+		                        </div>
+		                        <div class="form-floating mb-4">
+		                            <select class="form-select mb-3" id="regulation" aria-label="Floating label select レギュレーション">
+		                                <option selected>レギュレーション</option>
+		                                <option value='0'>スタンダード</option>
+										<option value='1'>エクストラ</option>
+										<option value='2'>特殊</option>
+		                            </select>
+		                            <label for="regulation">レギュレーション</label>
+		                        </div>
+		                        <div class="form-floating mb-4">
+		                            <select class="form-select mb-3" id="regist_type" aria-label="Floating label select regist_type">
+		                                <option selected>抽選方法</option>
+		                                <option value='0'>先着順</option>
+										<option value='1'>抽選</option>
+		                            </select>
+		                            <label for="regist_type">抽選方法</label>
+		                        </div>
+		                        <button type="submit" class="btn btn-primary py-3 w-100 mb-4">登録</button>
+	                        </form>
+	                    </div>
+	                </div>
+	            </div>
+            </div>
+            <!-- Sale & Revenue End -->
+        </div>
+        <!-- Content End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <div id="parent" th:replace="/common/include_js"></div>
+
+</body>
+
+</html>

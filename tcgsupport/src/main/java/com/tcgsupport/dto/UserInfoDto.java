@@ -3,7 +3,7 @@ package com.tcgsupport.dto;
 import lombok.Data;
 
 @Data
-public class LoginInfoDto {
+public class UserInfoDto {
 
 	private Integer userId;
 	private String name;
