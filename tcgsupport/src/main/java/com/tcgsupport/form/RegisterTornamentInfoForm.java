@@ -1,6 +1,11 @@
 package com.tcgsupport.form;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
@@ -18,20 +23,19 @@ public class RegisterTornamentInfoForm {
 	/** local_id. */
 	private Integer localId;
 
-	/** year. */
-	private Integer year;
-
-	/** month. */
-	private Integer month;
+	/** 開催日 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate eventDate;
 
 	/** regulation. */
 	private Integer regulation;
 
-	/** reg_typ. */
-	private Integer regTyp;
+	/** registerTyp. */
+	private Integer registerTyp;
 
 	/** deck_limit. */
-	private Date deckLimit;
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	private LocalDateTime deckLimit;
 
 	/** method. */
 	private Integer method;
@@ -40,14 +44,17 @@ public class RegisterTornamentInfoForm {
 	private String description;
 
 	/** icon. */
-	private String icon;
+	private MultipartFile icon;
 
 	/** public_time. */
-	private Date publicTime;
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	private LocalDateTime  publicstart;
 
 	/** entry_start_time. */
-	private Date entryStartTime;
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	private LocalDateTime  entryStartTime;
 
 	/** entry_end_time. */
-	private Date entryEndTime;
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	private LocalDateTime  entryEndTime;
 }

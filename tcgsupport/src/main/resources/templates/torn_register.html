@@ -32,15 +32,15 @@
 	                <div class="col-12 col-sm-12 col-md-11 col-lg-11 col-xl-10">
 	                    <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
 	                    	<h3 class="mb-4">大会作成</h3>
-	                    	<form th:action="@{/auth}" method="POST">
+	                    	<form th:action="@{/torn/valid}" method="POST" enctype="multipart/form-data">
 	                    		<div class="row g-2">
 	                    			<div class="col-md">
 				                        <div class="form-floating mb-4">
-				                            <select class="form-select mb-3 w-90" id="series" aria-label="Floating label select series">
+				                            <select class="form-select mb-3 w-90" id="seriesId" name="seriesId" aria-label="Floating label select series">
 				                                <option selected value='-1'>指定なし</option>
 												
 				                            </select>
-				                            <label for="series">シリーズ名</label>
+				                            <label for="seriesId">シリーズ名</label>
 				                        </div>
 	                    			</div>
 	                    			<div class="col-md">
@@ -49,16 +49,20 @@
 				                        </div>
 	                    			</div>
 	                    		</div>
+		                        <div class="bg-white rounded h-100 p-4 form-control mb-3">
+		                            <label for="icon"class="form-label">大会バナー</label>
+                                	<input class="form-control" type="file" id="icon" name="icon" placeholder="バナー" accept="image/*">
+		                        </div>
 		                        <div class="form-floating mb-3">
-		                            <input type="text" class="form-control" id="tornname" name="name" placeholder="大会名">
-		                            <label for="tornname">大会名</label>
+		                            <input type="text" class="form-control" id="name" name="name" placeholder="大会名">
+		                            <label for="name">大会名</label>
 		                        </div>
 		                        <div class="form-floating mb-4">
 		                            <input type="text" class="form-control" id="capacity" name="capacity" placeholder="定員">
 		                            <label for="capacity">参加定員</label>
 		                        </div>
 		                        <div class="form-floating mb-4">
-		                            <select class="form-select mb-3" id="local" aria-label="Floating label select 開催地域">
+		                            <select class="form-select mb-3" id="localId" name="localId" aria-label="Floating label select 開催地域">
 		                                <option selected>開催地域</option>
 		                                <option value='0'>北海道</option>
 										<option value='1'>青森県</option>
@@ -108,14 +112,14 @@
 										<option value='45'>鹿児島県</option>
 										<option value='46'>沖縄県</option>
 		                            </select>
-		                            <label for="local">開催地域</label>
+		                            <label for="localId">開催地域</label>
 		                        </div>
 		                        <div class="form-floating mb-4">
-		                            <input type="date" class="form-control" id="date" name="date" placeholder="開催日">
-		                            <label for="date">開催日</label>
+		                            <input type="date" class="form-control" id="eventDate" name="eventDate" placeholder="開催日" required pattern="\d{4}-\d{2}-\d{2}">
+		                            <label for="eventDate">開催日</label>
 		                        </div>
 		                        <div class="form-floating mb-4">
-		                            <select class="form-select mb-3" id="regulation" aria-label="Floating label select レギュレーション">
+		                            <select class="form-select mb-3" id="regulation" name="regulation" aria-label="Floating label select レギュレーション">
 		                                <option selected>レギュレーション</option>
 		                                <option value='0'>スタンダード</option>
 										<option value='1'>エクストラ</option>
@@ -124,12 +128,47 @@
 		                            <label for="regulation">レギュレーション</label>
 		                        </div>
 		                        <div class="form-floating mb-4">
-		                            <select class="form-select mb-3" id="regist_type" aria-label="Floating label select regist_type">
+		                            <select class="form-select mb-3" id="method" name="method" aria-label="Floating label select regist_type">
+		                                <option selected>大会方式</option>
+		                                <option value='0'>スイスドローのみ</option>
+										<option value='1'>トーナメントのみ</option>
+										<option value='2'>リーグ戦のみ</option>
+		                                <option value='3'>スイスドロー＆トーナメント</option>
+		                                <option value='4'>スイスドロー＆スイスドロー</option>
+										<option value='5'>リーグ戦＆トーナメント</option>
+		                            </select>
+		                            <label for="method">大会方式</label>
+		                        </div>
+		                        <div class="form-floating mb-4">
+		                            <select class="form-select mb-3" id="registerTyp" name="registerTyp" aria-label="Floating label select regist_type">
 		                                <option selected>抽選方法</option>
 		                                <option value='0'>先着順</option>
 										<option value='1'>抽選</option>
 		                            </select>
-		                            <label for="regist_type">抽選方法</label>
+		                            <label for="registerTyp">抽選方法</label>
+		                        </div>
+		                        <div class="mb-4 form-check form-switch">
+		                            <input type="checkbox" class="form-check-input" id="deck" name="deck" role="switch">
+		                            <label class="form-check-label" for="deck">デッキ登録を必須にする</label>
+		                            <input type="datetime-local" class="form-control" id="deckLimit" name="deckLimit" placeholder="エントリー開始日時" required pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}">
+		                            <label for="deckLimit">デッキ登録締め切り</label>
+		                        </div>
+		                        <div class="form-floating mb-4">
+		                            <input type="datetime-local" class="form-control" id="publicstart" name="publicstart" placeholder="情報公開日" required pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}">
+		                            <label for="publicstart">情報公開日</label>
+		                        </div>
+		                        <div class="form-floating mb-4">
+		                            <input type="datetime-local" class="form-control" id="entryStartTime" name="entryStartTime" placeholder="エントリー開始日時" required pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}">
+		                            <label for="entryStartTime">エントリー開始日時</label>
+		                        </div>
+		                        <div class="form-floating mb-4">
+		                            <input type="datetime-local" class="form-control" id="entryEndTime" name="entryEndTime" placeholder="エントリー締め切り日時" required pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}">
+		                            <label for="entryEndTime">エントリー締め切り日時</label>
+		                        </div>
+		                        <div class="form-floating mb-4">
+		                        	<textarea class="form-control" name="description" placeholder="Leave a comment here"
+                                    		id="description" style="height: 300px;"></textarea>
+		                            <label for="description">詳細</label>
 		                        </div>
 		                        <button type="submit" class="btn btn-primary py-3 w-100 mb-4">登録</button>
 	                        </form>

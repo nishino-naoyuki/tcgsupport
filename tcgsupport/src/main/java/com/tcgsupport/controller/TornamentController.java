@@ -43,6 +43,11 @@ public class TornamentController {
 		mv.setViewName("torn_register");
 		return mv;
 	}
+
+	@RequestMapping(value= {"torn/valid"}, method=RequestMethod.POST)
+	public ModelAndView valid(ModelAndView mv,RegisterTornamentInfoForm form) {
+		return mv;
+	}
 	
 	public ModelAndView register(
 			ModelAndView mv,RegisterTornamentInfoForm form) {
