@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- cssの読み込み -->
+    <div id="parent" th:replace="@{/common/include_css}"></div>  
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+		<!-- サイドバー -->
+	    <div id="parent" th:replace="@{/common/sidebar}"></div>  
+
+        <!-- Content Start -->
+        <div class="content">
+            <!-- Navbar Start -->
+            <div id="parent" th:replace="@{/common/navbar}"></div>  
+            <!-- Navbar End -->
+
+
+            <!-- Sale & Revenue Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+	                <div class="col-12 col-sm-12 col-md-11 col-lg-11 col-xl-10">
+	                    <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
+	                    	<h3 class="mb-4">大会作成</h3>
+	                    	<h4 class="mb-4">以下の情報で登録します。よろしいですか？</h4>
+	                    	<div　th:object="${tornConfirm}">
+	                    		<div class="row g-2">
+	                    			<div th:text="*{name}"></div>
+	                    		</div>
+		                        <div class="bg-white rounded h-100 p-4 form-control mb-3">
+		                            <label for="icon"class="form-label">大会バナー</label>
+                                	<input class="form-control" type="file" id="icon" name="icon" placeholder="バナー" accept="image/*">
+		                        </div>
+		                        <div class="mb-3">
+		                        	<div th:text="*{name}"></div>
+		                        </div>
+		                        <div class="mb-4">
+		                            <label for="capacity">参加定員</label>
+		                            <div th:text="*{capacity}"></div>
+		                        </div>
+		                        <div class="mb-4">
+		                            <label>開催地域</label>
+		                            <div th:text="*{localName}"></div>
+		                        </div>
+		                       <div class="mb-4">
+		                            <label>開催日</label>
+		                            <div th:text="*{eventDate}"></div>
+		                        </div>
+		                        <div class="mb-4">
+		                            <label for="regulation">レギュレーション</label>
+		                            <div th:text="*{regulation}"></div>
+		                        </div>
+		                        <div class="mb-4">
+		                            <label for="method">大会方式</label>
+		                            <div th:text="*{method}"></div>
+		                        </div>
+		                        <div class="mb-4">
+		                            <label for="registerTyp">抽選方法</label>
+		                            <div th:text="*{registerTyp}"></div>
+		                        </div>
+		                        <div class="mb-4 form-check form-switch">
+		                            <label for="deckLimit">デッキ登録締め切り</label>
+		                            <div th:text="*{deckLimit}"></div>
+		                        </div>
+		                        <div class="mb-4">
+		                            <label for="publicstart">情報公開日</label>
+		                            <div th:text="*{publicstart}"></div>
+		                        </div>
+		                        <div class="mb-4">
+		                            <label for="entryStartTime">エントリー開始日時</label>
+		                            <div th:text="*{entryStartTime}"></div>
+		                        </div>
+		                        <div class="mb-4">
+		                            <label for="entryEndTime">エントリー締め切り日時</label>
+		                            <div th:text="*{entryEndTime}"></div>
+		                        </div>
+		                        <div class="mb-4">
+		                        	<label for="description">詳細</label>
+		                            <div th:text="*{description}"></div>
+		                        </div>
+		                        <button type="submit" class="btn btn-primary py-3 w-100 mb-4">登録</button>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+            </div>
+            <!-- Sale & Revenue End -->
+        </div>
+        <!-- Content End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <div id="parent" th:replace="/common/include_js"></div>
+
+</body>
+
+</html>

@@ -1,9 +1,12 @@
 package com.tcgsupport.util;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -13,10 +16,42 @@ import java.util.Date;
  */
 public class Exchange {
 
+	/**
+	 * LocalDateTimeをDateに変換する
+	 * @param localDateTime
+	 * @return
+	 */
 	public static Date toDate(LocalDateTime localDateTime) {
 		ZoneId zone = ZoneId.systemDefault();
         ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, zone);
         Instant instant = zonedDateTime.toInstant();
         return Date.from(instant);
+	}
+	
+	/**
+	 * LocalDateTimeを指定された文字列ん変換する
+	 * @param localDateTime
+	 * @param fmt
+	 * @return
+	 */
+	public static String toFormatString(LocalDateTime localDateTime,String fmt) {
+		String dateString = "";
+		
+		if( localDateTime != null ) {
+			DateTimeFormatter sdf = DateTimeFormatter.ofPattern(fmt);
+			dateString = sdf.format(localDateTime);
+		}
+		
+		return dateString;
+	}
+	public static String toFormatString(LocalDate localDate,String fmt) {
+		String dateString = "";
+		
+		if( localDate != null ) {
+			DateTimeFormatter sdf = DateTimeFormatter.ofPattern(fmt);
+			dateString = sdf.format(localDate);
+		}
+		
+		return dateString;
 	}
 }
