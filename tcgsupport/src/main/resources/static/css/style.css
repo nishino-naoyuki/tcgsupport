@@ -289,3 +289,7 @@
 .logo-login{
 	max-width:100%;
 }
+
+.errmsg{
+	color: red;
+}

@@ -32,7 +32,7 @@
 	                <div class="col-12 col-sm-12 col-md-11 col-lg-11 col-xl-10">
 	                    <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
 	                    	<h3 class="mb-4">大会作成</h3>
-	                    	<form th:action="@{/torn/valid}" method="POST" enctype="multipart/form-data">
+	                    	<form th:action="@{/torn/confirm}" method="POST" enctype="multipart/form-data"　th:object="${registerTornamentInfoForm}">
 	                    		<div class="row g-2">
 	                    			<div class="col-md">
 				                        <div class="form-floating mb-4">
@@ -53,17 +53,20 @@
 		                            <label for="icon"class="form-label">大会バナー</label>
                                 	<input class="form-control" type="file" id="icon" name="icon" placeholder="バナー" accept="image/*">
 		                        </div>
+		                       　<p class="errmsg" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
 		                        <div class="form-floating mb-3">
-		                            <input type="text" class="form-control" id="name" name="name" placeholder="大会名">
+		                            <input type="text" class="form-control" id="name" name="name" placeholder="大会名"　th:field="*{name}">
 		                            <label for="name">大会名</label>
 		                        </div>
+		                        <p class="errmsg" th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}"></p>
 		                        <div class="form-floating mb-4">
-		                            <input type="text" class="form-control" id="capacity" name="capacity" placeholder="定員">
+		                            <input type="text" class="form-control" id="capacity" name="capacity" placeholder="定員"　th:field="*{capacity}">
 		                            <label for="capacity">参加定員</label>
 		                        </div>
+		                        <p class="errmsg" th:if="${#fields.hasErrors('localId')}" th:errors="*{localId}"></p>
 		                        <div class="form-floating mb-4">
-		                            <select class="form-select mb-3" id="localId" name="localId" aria-label="Floating label select 開催地域">
-		                                <option selected>開催地域</option>
+		                            <select class="form-select mb-3" id="localId" name="localId" aria-label="Floating label select 開催地域"　th:field="*{localId}">
+		                                <option value='-1' selected>開催地域</option>
 		                                <option value='0'>北海道</option>
 										<option value='1'>青森県</option>
 										<option value='2'>岩手県</option>
@@ -114,22 +117,25 @@
 		                            </select>
 		                            <label for="localId">開催地域</label>
 		                        </div>
+		                        <p class="errmsg" th:if="${#fields.hasErrors('eventDate')}" th:errors="*{eventDate}"></p>
 		                        <div class="form-floating mb-4">
-		                            <input type="date" class="form-control" id="eventDate" name="eventDate" placeholder="開催日" required pattern="\d{4}-\d{2}-\d{2}">
+		                            <input type="date" class="form-control" id="eventDate" name="eventDate" placeholder="開催日" pattern="\d{4}-\d{2}-\d{2}" th:field="*{eventDate}">
 		                            <label for="eventDate">開催日</label>
 		                        </div>
+		                        <p class="errmsg" th:if="${#fields.hasErrors('regulation')}" th:errors="*{regulation}"></p>
 		                        <div class="form-floating mb-4">
-		                            <select class="form-select mb-3" id="regulation" name="regulation" aria-label="Floating label select レギュレーション">
-		                                <option selected>レギュレーション</option>
+		                            <select class="form-select mb-3" id="regulation" name="regulation" aria-label="Floating label select レギュレーション" th:field="*{regulation}">
+		                                <option value='-1' selected>レギュレーション</option>
 		                                <option value='0'>スタンダード</option>
 										<option value='1'>エクストラ</option>
 										<option value='2'>特殊</option>
 		                            </select>
 		                            <label for="regulation">レギュレーション</label>
 		                        </div>
+		                        <p class="errmsg" th:if="${#fields.hasErrors('method')}" th:errors="*{method}"></p>
 		                        <div class="form-floating mb-4">
-		                            <select class="form-select mb-3" id="method" name="method" aria-label="Floating label select regist_type">
-		                                <option selected>大会方式</option>
+		                            <select class="form-select mb-3" id="method" name="method" aria-label="Floating label select regist_type" th:field="*{method}">
+		                                <option value='-1' selected>大会方式</option>
 		                                <option value='0'>スイスドローのみ</option>
 										<option value='1'>トーナメントのみ</option>
 										<option value='2'>リーグ戦のみ</option>
@@ -139,35 +145,41 @@
 		                            </select>
 		                            <label for="method">大会方式</label>
 		                        </div>
+		                        <p class="errmsg" th:if="${#fields.hasErrors('registerTyp')}" th:errors="*{registerTyp}"></p>
 		                        <div class="form-floating mb-4">
-		                            <select class="form-select mb-3" id="registerTyp" name="registerTyp" aria-label="Floating label select regist_type">
-		                                <option selected>抽選方法</option>
+		                            <select class="form-select mb-3" id="registerTyp" name="registerTyp" aria-label="Floating label select regist_type" th:field="*{registerTyp}">
+		                                <option value='-1' selected>抽選方法</option>
 		                                <option value='0'>先着順</option>
 										<option value='1'>抽選</option>
 		                            </select>
 		                            <label for="registerTyp">抽選方法</label>
 		                        </div>
+		                        <p class="errmsg" th:if="${#fields.hasErrors('deckLimit')}" th:errors="*{deckLimit}"></p>
 		                        <div class="mb-4 form-check form-switch">
 		                            <input type="checkbox" class="form-check-input" id="deck" name="deck" role="switch">
 		                            <label class="form-check-label" for="deck">デッキ登録を必須にする</label>
-		                            <input type="datetime-local" class="form-control" id="deckLimit" name="deckLimit" placeholder="エントリー開始日時" required pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}">
+		                            <input type="datetime-local" class="form-control" id="deckLimit" name="deckLimit" placeholder="エントリー開始日時" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}" th:field="*{deckLimit}">
 		                            <label for="deckLimit">デッキ登録締め切り</label>
 		                        </div>
+		                        <p class="errmsg" th:if="${#fields.hasErrors('publicstart')}" th:errors="*{publicstart}"></p>
 		                        <div class="form-floating mb-4">
-		                            <input type="datetime-local" class="form-control" id="publicstart" name="publicstart" placeholder="情報公開日" required pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}">
+		                            <input type="datetime-local" class="form-control" id="publicstart" name="publicstart" placeholder="情報公開日" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}" th:field="*{publicstart}">
 		                            <label for="publicstart">情報公開日</label>
 		                        </div>
+		                        <p class="errmsg" th:if="${#fields.hasErrors('entryStartTime')}" th:errors="*{entryStartTime}"></p>
 		                        <div class="form-floating mb-4">
-		                            <input type="datetime-local" class="form-control" id="entryStartTime" name="entryStartTime" placeholder="エントリー開始日時" required pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}">
+		                            <input type="datetime-local" class="form-control" id="entryStartTime" name="entryStartTime" placeholder="エントリー開始日時" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}" th:field="*{entryStartTime}">
 		                            <label for="entryStartTime">エントリー開始日時</label>
 		                        </div>
+		                        <p class="errmsg" th:if="${#fields.hasErrors('entryEndTime')}" th:errors="*{entryEndTime}"></p>
 		                        <div class="form-floating mb-4">
-		                            <input type="datetime-local" class="form-control" id="entryEndTime" name="entryEndTime" placeholder="エントリー締め切り日時" required pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}">
+		                            <input type="datetime-local" class="form-control" id="entryEndTime" name="entryEndTime" placeholder="エントリー締め切り日時" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}" th:field="*{entryEndTime}">
 		                            <label for="entryEndTime">エントリー締め切り日時</label>
 		                        </div>
+		                        <p class="errmsg" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
 		                        <div class="form-floating mb-4">
 		                        	<textarea class="form-control" name="description" placeholder="Leave a comment here"
-                                    		id="description" style="height: 300px;"></textarea>
+                                    		id="description" style="height: 300px;" th:field="*{description}"></textarea>
 		                            <label for="description">詳細</label>
 		                        </div>
 		                        <button type="submit" class="btn btn-primary py-3 w-100 mb-4">登録</button>
