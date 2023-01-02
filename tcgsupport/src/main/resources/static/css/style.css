@@ -293,3 +293,11 @@
 .errmsg{
 	color: red;
 }
+
+.banner-img{
+	width: 100%;
+}
+
+.confirm-text{
+	color: black;
+}

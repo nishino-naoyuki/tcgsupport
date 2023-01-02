@@ -97,7 +97,7 @@ public class FileUtils {
 	 */
 	public static void deleteIconFile(String fname) {
 
-		String imgdir = SystemConfig.getInstance().getAvaterbasedir() ;
+		String imgdir = SystemConfig.getInstance().getBannerbasedir() ;
 		
 		delete(new File(imgdir,fname));
 	}
@@ -115,7 +115,7 @@ public class FileUtils {
 			return null;
 		}
 		
-		String imgdir = SystemConfig.getInstance().getAvaterbasedir() ;
+		String imgdir = SystemConfig.getInstance().getBannerbasedir() ;
 		
 		//ディレクトリ（なければ作成）
 		makeDir(imgdir);

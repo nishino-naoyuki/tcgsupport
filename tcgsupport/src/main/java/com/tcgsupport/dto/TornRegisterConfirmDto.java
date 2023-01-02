@@ -1,11 +1,15 @@
 package com.tcgsupport.dto;
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import lombok.Data;
 
 @Data
 public class TornRegisterConfirmDto {
 
+	private Integer seriesId;
 	private String seriesName;
 	
 	/** name. */
@@ -18,7 +22,8 @@ public class TornRegisterConfirmDto {
 	private String localName;
 
 	/** 開催日 */
-	private String eventDate;
+	private LocalDate eventDate;
+	private String eventDateDsp;
 
 	/** regulation. */
 	private String regulation;
@@ -27,7 +32,8 @@ public class TornRegisterConfirmDto {
 	private String registerTyp;
 
 	/** deck_limit. */
-	private String deckLimit;
+	private LocalDateTime deckLimit;
+	private String deckLimitDsp;
 
 	/** method. */
 	private String method;
@@ -39,11 +45,15 @@ public class TornRegisterConfirmDto {
 	private String icon;
 
 	/** public_time. */
-	private String  publicstart;
+	private LocalDateTime  publicstart;
+	private String  publicstartDsp;
 
 	/** entry_start_time. */
-	private String  entryStartTime;
+	private LocalDateTime entryStartTime;
+	private String  entryStartTimeDsp;
 
 	/** entry_end_time. */
-	private String  entryEndTime;
+	private LocalDateTime entryEndTime;
+	private String  entryEndTimeDsp;
+	
 }

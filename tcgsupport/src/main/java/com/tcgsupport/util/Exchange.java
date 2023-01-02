@@ -35,7 +35,10 @@ public class Exchange {
 	 * @return
 	 */
 	public static String toFormatString(LocalDateTime localDateTime,String fmt) {
-		String dateString = "";
+		return toFormatString(localDateTime,fmt,"");
+	}
+	public static String toFormatString(LocalDateTime localDateTime,String fmt,String defaultMsg) {
+		String dateString = defaultMsg;
 		
 		if( localDateTime != null ) {
 			DateTimeFormatter sdf = DateTimeFormatter.ofPattern(fmt);
@@ -45,6 +48,9 @@ public class Exchange {
 		return dateString;
 	}
 	public static String toFormatString(LocalDate localDate,String fmt) {
+		return toFormatString(localDate,fmt,"");
+	}
+	public static String toFormatString(LocalDate localDate,String fmt,String defaultMsg) {
 		String dateString = "";
 		
 		if( localDate != null ) {

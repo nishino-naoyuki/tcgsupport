@@ -1,5 +1,8 @@
 package com.tcgsupport.controller;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -16,14 +19,18 @@ import com.tcgsupport.param.LocalEnum;
 import com.tcgsupport.param.MethodEnum;
 import com.tcgsupport.param.RegiTypeEnum;
 import com.tcgsupport.param.RegulationEnum;
+import com.tcgsupport.param.SessionConst;
 import com.tcgsupport.service.UserService;
 import com.tcgsupport.util.Exchange;
+import com.tcgsupport.util.FileUtils;
 
 @Controller
 public class TornamentController {
 
 	@Autowired
 	UserService userService;
+	@Autowired
+	HttpSession session;
 	
 	/**
 	 * 大会参加者登録
@@ -59,20 +66,24 @@ public class TornamentController {
 		//エラーがある場合は入力画面へ戻る
 		if( error.hasErrors() ) {
 			mv.setViewName("torn_register");
-		}else {
+		}else {			
+			TornRegisterConfirmDto dto = getTornRegisterConfirmDto(registerTornamentInfoForm);
 			//セッションにデータ保存
+			session.setAttribute(SessionConst.TORNDATA, dto);
 			//DTOにデータコピー
-			mv.addObject("tornConfirm",getTornRegisterConfirmDto(registerTornamentInfoForm));
+			mv.addObject("tornConfirm",dto);
 			
 			mv.setViewName("torn_register_confirm");
 		}
 		return mv;
 	}
 	
-	public ModelAndView register(
+	@RequestMapping(value= {"torn/register"}, method=RequestMethod.POST)
+	public String register(
 			ModelAndView mv,RegisterTornamentInfoForm form) {
+		String resultMsg = "登録完了しました";
 		
-		return mv;
+		return resultMsg;
 	}
 	
 	/*--private method--*/
@@ -94,17 +105,20 @@ public class TornamentController {
 	private TornRegisterConfirmDto getTornRegisterConfirmDto(RegisterTornamentInfoForm form) {
 		TornRegisterConfirmDto dto = new TornRegisterConfirmDto();
 		
-		if( form.getSeriesId() == null ) {
-			dto.setSeriesName("");
+		if( form.getSeriesId() == null || form.getSeriesId() ==-1) {
+			dto.setSeriesId(null);
+			dto.setSeriesName("指定なし");
 		}else {
-			
+			dto.setSeriesId(form.getSeriesId());
 		}
 		dto.setCapacity(form.getCapacity());
 		dto.setDescription(form.getDescription());
-		if( form.getIcon() == null ) {
+		if( StringUtils.isEmpty(form.getIcon().getOriginalFilename()) ) {
 			dto.setIcon("default.png");
 		}else {
-			dto.setIcon(form.getIcon().getOriginalFilename());
+			//アイコンファイルをアップロード
+			String fname = FileUtils.uploadIconFile( form.getIcon() );
+			dto.setIcon(fname);
 		}
 		dto.setLocalName(LocalEnum.getBy(form.getLocalId()).getName());
 		dto.setMethod(MethodEnum.getBy(form.getMethod()).getName());
@@ -112,15 +126,20 @@ public class TornamentController {
 		dto.setRegulation(RegulationEnum.getBy(form.getRegulation()).getName());
 		dto.setName(form.getName());
 		//デッキ締め切り
-		dto.setDeckLimit(Exchange.toFormatString(form.getDeckLimit(), "yyyy/MM/dd hh:mm:ss"));
+		dto.setDeckLimit(form.getDeckLimit());
+		dto.setDeckLimitDsp(Exchange.toFormatString(form.getDeckLimit(), "yyyy/MM/dd hh:mm:ss","指定なし"));
 		//開催日
-		dto.setEventDate(Exchange.toFormatString(form.getEventDate(), "yyyy/MM/dd"));
+		dto.setEventDate(form.getEventDate());
+		dto.setEventDateDsp(Exchange.toFormatString(form.getEventDate(), "yyyy/MM/dd"));
 		//情報公開開始
-		dto.setPublicstart(Exchange.toFormatString(form.getPublicstart(), "yyyy/MM/dd hh:mm:ss"));
+		dto.setPublicstart(form.getPublicstart());
+		dto.setPublicstartDsp(Exchange.toFormatString(form.getPublicstart(), "yyyy/MM/dd hh:mm:ss","登録と同時"));
 		//募集開始
-		dto.setEntryStartTime(Exchange.toFormatString(form.getEntryStartTime(), "yyyy/MM/dd hh:mm:ss"));
+		dto.setEntryStartTime(form.getEntryStartTime());
+		dto.setEntryStartTimeDsp(Exchange.toFormatString(form.getEntryStartTime(), "yyyy/MM/dd hh:mm:ss","公開と同時"));
 		//募集終了
-		dto.setEntryEndTime(Exchange.toFormatString(form.getEntryEndTime(), "yyyy/MM/dd hh:mm:ss"));
+		dto.setEntryEndTime(form.getEntryEndTime());
+		dto.setEntryEndTimeDsp(Exchange.toFormatString(form.getEntryEndTime(), "yyyy/MM/dd hh:mm:ss","指定なし"));
 		
 		
 		return dto;

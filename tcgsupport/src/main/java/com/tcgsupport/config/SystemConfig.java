@@ -24,6 +24,6 @@ public class SystemConfig {
 	}
 
 	private String salt;	//パスワードハッシュソルト
-	private String avaterbasedir;//
+	private String bannerbasedir;//
 	private Integer provlimit;	//仮テーブルの有効期限
 }
