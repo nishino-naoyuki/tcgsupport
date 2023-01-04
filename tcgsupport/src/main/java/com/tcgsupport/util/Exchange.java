@@ -1,5 +1,6 @@
 package com.tcgsupport.util;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -27,7 +28,18 @@ public class Exchange {
         Instant instant = zonedDateTime.toInstant();
         return Date.from(instant);
 	}
+	public static Date toDate(final LocalDate localDate) {
+		return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+	}
 	
+	/**
+	 * LocalDateTimeをTimestampに変換する
+	 * @param localDateTime
+	 * @return
+	 */
+	public static Timestamp toTimestamp(LocalDateTime localDateTime) {
+		return Timestamp.valueOf(localDateTime);
+	}
 	/**
 	 * LocalDateTimeを指定された文字列ん変換する
 	 * @param localDateTime

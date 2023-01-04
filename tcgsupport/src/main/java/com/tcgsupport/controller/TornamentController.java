@@ -3,6 +3,8 @@ package com.tcgsupport.controller;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -20,15 +22,21 @@ import com.tcgsupport.param.MethodEnum;
 import com.tcgsupport.param.RegiTypeEnum;
 import com.tcgsupport.param.RegulationEnum;
 import com.tcgsupport.param.SessionConst;
+import com.tcgsupport.service.TornService;
 import com.tcgsupport.service.UserService;
 import com.tcgsupport.util.Exchange;
 import com.tcgsupport.util.FileUtils;
 
 @Controller
 public class TornamentController {
+	private static final Logger logger = LoggerFactory.getLogger(TornamentController.class);
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	TornService tornService;
+	
 	@Autowired
 	HttpSession session;
 	
@@ -80,8 +88,16 @@ public class TornamentController {
 	
 	@RequestMapping(value= {"torn/register"}, method=RequestMethod.POST)
 	public String register(
-			ModelAndView mv,RegisterTornamentInfoForm form) {
-		String resultMsg = "登録完了しました";
+			ModelAndView mv) {
+		String resultMsg = "登録に失敗しました";
+		
+		logger.info("torn/register!!!");
+		//セッションから情報取得
+		TornRegisterConfirmDto dto = (TornRegisterConfirmDto)session.getAttribute(SessionConst.TORNDATA);
+		if(dto != null) {
+			tornService.insert(dto, null);
+			resultMsg = "登録に成功しました";
+		}
 		
 		return resultMsg;
 	}
@@ -120,9 +136,13 @@ public class TornamentController {
 			String fname = FileUtils.uploadIconFile( form.getIcon() );
 			dto.setIcon(fname);
 		}
+		dto.setLocalId(form.getLocalId());
 		dto.setLocalName(LocalEnum.getBy(form.getLocalId()).getName());
+		dto.setMethodId(form.getMethod());
 		dto.setMethod(MethodEnum.getBy(form.getMethod()).getName());
+		dto.setRegisterTypId(form.getRegisterTyp());
 		dto.setRegisterTyp(RegiTypeEnum.getBy(form.getRegisterTyp()).getName());
+		dto.setRegulationId(form.getRegulation());
 		dto.setRegulation(RegulationEnum.getBy(form.getRegulation()).getName());
 		dto.setName(form.getName());
 		//デッキ締め切り

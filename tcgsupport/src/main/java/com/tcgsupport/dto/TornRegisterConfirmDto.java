@@ -19,6 +19,7 @@ public class TornRegisterConfirmDto {
 	private String capacity;
 
 	/** local_id. */
+	private Integer localId;
 	private String localName;
 
 	/** 開催日 */
@@ -26,9 +27,11 @@ public class TornRegisterConfirmDto {
 	private String eventDateDsp;
 
 	/** regulation. */
+	private Integer regulationId;
 	private String regulation;
 
 	/** registerTyp. */
+	private Integer registerTypId;
 	private String registerTyp;
 
 	/** deck_limit. */
@@ -36,6 +39,7 @@ public class TornRegisterConfirmDto {
 	private String deckLimitDsp;
 
 	/** method. */
+	private Integer methodId;
 	private String method;
 
 	/** description. */

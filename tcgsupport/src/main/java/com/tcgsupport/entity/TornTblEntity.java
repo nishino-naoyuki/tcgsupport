@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
@@ -37,6 +38,8 @@ public class TornTblEntity implements Serializable {
 	private Integer tornId;
 
 	/** 新規テーブル. */
+	private Integer seriesId;
+    @JoinColumn(name="seriesId",insertable=false ,updatable=false)
 	private SeriesTblEntity seriesTbl;
 
 	/** name. */
@@ -99,6 +102,11 @@ public class TornTblEntity implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="tornId",insertable=true ,updatable=true)
 	private Set<RuleTblEntity> ruleTblSet;
+	
+	private Integer userId;
+	@OneToOne
+    @JoinColumn(name="userId",insertable=false ,updatable=false)
+	private UserTblEntity userTbl;
 
 	/**
 	 * コンストラクタ.
