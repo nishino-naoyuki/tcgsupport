@@ -4,6 +4,7 @@ SET SESSION FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS ENTRANT_TBL;
 DROP TABLE IF EXISTS GAME_TBL;
+DROP TABLE IF EXISTS ORGANIZER_TBL;
 DROP TABLE IF EXISTS PROV_USER;
 DROP TABLE IF EXISTS RULE_TBL;
 DROP TABLE IF EXISTS SERIESE_POINT;
@@ -100,6 +101,23 @@ CREATE TABLE GAME_TBL
 );
 
 
+CREATE TABLE ORGANIZER_TBL
+(
+	id int NOT NULL AUTO_INCREMENT,
+	-- 大会ID
+	torn_id int NOT NULL COMMENT '大会ID',
+	-- 主催者ID
+	organizer_user_id int NOT NULL COMMENT '主催者ID',
+	-- 主担当フラグ
+	-- 1:主担当
+	-- 0:副担当
+	main_flg int NOT NULL COMMENT '主担当フラグ
+1:主担当
+0:副担当',
+	PRIMARY KEY (id)
+);
+
+
 CREATE TABLE PROV_USER
 (
 	id int NOT NULL,
@@ -108,7 +126,9 @@ CREATE TABLE PROV_USER
 	-- URLにつけるトークン
 	token varchar(128) NOT NULL COMMENT 'URLにつけるトークン',
 	-- トークンの有効期限
-	expiration_date timestamp NOT NULL COMMENT 'トークンの有効期限'
+	expiration_date timestamp NOT NULL COMMENT 'トークンの有効期限',
+	-- 参加者ID
+	user_id int NOT NULL COMMENT '参加者ID'
 );
 
 
@@ -157,14 +177,6 @@ CREATE TABLE SERIESE_POINT
 CREATE TABLE SERIES_TBL
 (
 	series_id int NOT NULL AUTO_INCREMENT,
-	-- メインの主催者ID
-	main_organizer_id int NOT NULL COMMENT 'メインの主催者ID',
-	-- サブ主催者１
-	sub_organizer_id1 int COMMENT 'サブ主催者１',
-	-- サブ主催者２
-	sub_organizer_id2 int COMMENT 'サブ主催者２',
-	-- サブ主催者３
-	sub_organizer_id3 int COMMENT 'サブ主催者３',
 	-- シリーズ名
 	name varchar(200) NOT NULL COMMENT 'シリーズ名',
 	-- 説明
@@ -180,6 +192,8 @@ CREATE TABLE TORN_TBL
 	-- 大会ID
 	torn_id int NOT NULL AUTO_INCREMENT COMMENT '大会ID',
 	series_id int NOT NULL,
+	-- 主催者
+	user_id int NOT NULL COMMENT '主催者',
 	-- 大会名
 	name varchar(100) NOT NULL COMMENT '大会名',
 	-- 参加定員
@@ -190,6 +204,7 @@ CREATE TABLE TORN_TBL
 	year int NOT NULL COMMENT '開催年',
 	-- 開催月
 	month int NOT NULL COMMENT '開催月',
+	day int NOT NULL,
 	-- レギュレーション
 	-- 0:スタンダード
 	-- 1:エクストラ
@@ -304,6 +319,14 @@ ALTER TABLE GAME_TBL
 ;
 
 
+ALTER TABLE ORGANIZER_TBL
+	ADD FOREIGN KEY (torn_id)
+	REFERENCES TORN_TBL (torn_id)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+;
+
+
 ALTER TABLE RULE_TBL
 	ADD FOREIGN KEY (torn_id)
 	REFERENCES TORN_TBL (torn_id)
@@ -321,7 +344,7 @@ ALTER TABLE ENTRANT_TBL
 
 
 ALTER TABLE GAME_TBL
-	ADD FOREIGN KEY (user_id1)
+	ADD FOREIGN KEY (user_id2)
 	REFERENCES USER_TBL (user_id)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT
@@ -329,7 +352,23 @@ ALTER TABLE GAME_TBL
 
 
 ALTER TABLE GAME_TBL
-	ADD FOREIGN KEY (user_id2)
+	ADD FOREIGN KEY (user_id1)
+	REFERENCES USER_TBL (user_id)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+;
+
+
+ALTER TABLE ORGANIZER_TBL
+	ADD FOREIGN KEY (organizer_user_id)
+	REFERENCES USER_TBL (user_id)
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+;
+
+
+ALTER TABLE PROV_USER
+	ADD FOREIGN KEY (user_id)
 	REFERENCES USER_TBL (user_id)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT
@@ -344,32 +383,8 @@ ALTER TABLE SERIESE_POINT
 ;
 
 
-ALTER TABLE SERIES_TBL
-	ADD FOREIGN KEY (sub_organizer_id3)
-	REFERENCES USER_TBL (user_id)
-	ON UPDATE RESTRICT
-	ON DELETE RESTRICT
-;
-
-
-ALTER TABLE SERIES_TBL
-	ADD FOREIGN KEY (sub_organizer_id1)
-	REFERENCES USER_TBL (user_id)
-	ON UPDATE RESTRICT
-	ON DELETE RESTRICT
-;
-
-
-ALTER TABLE SERIES_TBL
-	ADD FOREIGN KEY (sub_organizer_id2)
-	REFERENCES USER_TBL (user_id)
-	ON UPDATE RESTRICT
-	ON DELETE RESTRICT
-;
-
-
-ALTER TABLE SERIES_TBL
-	ADD FOREIGN KEY (main_organizer_id)
+ALTER TABLE TORN_TBL
+	ADD FOREIGN KEY (user_id)
 	REFERENCES USER_TBL (user_id)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT

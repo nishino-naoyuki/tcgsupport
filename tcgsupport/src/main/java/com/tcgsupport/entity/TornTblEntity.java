@@ -39,6 +39,7 @@ public class TornTblEntity implements Serializable {
 
 	/** 新規テーブル. */
 	private Integer seriesId;
+	@OneToOne
     @JoinColumn(name="seriesId",insertable=false ,updatable=false)
 	private SeriesTblEntity seriesTbl;
 

@@ -107,23 +107,23 @@
     </div>
 
     <!-- JavaScript Libraries -->
-	<script>
-	const insertButton = document.getElementById('insert');
-	insertButton.addEventListener('click',()=>{
-		alert("!");
-		const url = /*[[@{/torn/register}]]*/ "/torn/register";
-		fetch(url,{method:"post"})
-		//レスポンスの受け取り
-	    .then(function (response) {
-	      //受け取ったデータを返す
-	      return response.json();
-	    })
-	    //受け取ったデータをコンソールに表示
-	    .then(function (data) {
-	      console.log(data);
-	    });
-	});
-	</script>
+    <script>
+    const insertButton = document.getElementById('insert');
+    insertButton.addEventListener('click',()=>{
+        //alert("!");
+        const url = /*[[@{/torn/register}]]*/ "/torn/register";
+        fetch(url,{method:"post"})
+        //レスポンスの受け取り
+        .then(function (response) {
+          //受け取ったデータを返す
+          return response.json();
+        })
+        //受け取ったデータをコンソールに表示
+        .then(function (data) {
+          console.log(data);
+        });
+    });
+    </script>
     <div id="parent" th:replace="/common/include_js"></div>
 </body>
 

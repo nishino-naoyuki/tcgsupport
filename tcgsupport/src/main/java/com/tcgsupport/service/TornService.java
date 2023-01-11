@@ -1,5 +1,7 @@
 package com.tcgsupport.service;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +26,11 @@ public class TornService {
 	private TornTblEntity getTornTblEntity(TornRegisterConfirmDto dto,Integer orgId) {
 		TornTblEntity tornEntity = new TornTblEntity();
 		
-		tornEntity.setSeriesId(dto.getSeriesId());
+		if( dto.getSeriesId() == null) {
+			tornEntity.setSeriesId(1);
+		}else {
+			tornEntity.setSeriesId(dto.getSeriesId());
+		}
 		tornEntity.setName(dto.getName());
 		tornEntity.setCapacity( Integer.parseInt(dto.getCapacity()) );
 		tornEntity.setLocalId(dto.getLocalId());
@@ -40,10 +46,14 @@ public class TornService {
 		tornEntity.setMethod(dto.getMethodId());
 		tornEntity.setDescription(dto.getDescription());
 		tornEntity.setIcon(dto.getIcon());
-		tornEntity.setPublicTime( Exchange.toTimestamp(dto.getPublicstart()) );
+		if(dto.getPublicstart() == null) {
+			tornEntity.setPublicTime( new Date() );
+		}else {
+			tornEntity.setPublicTime( Exchange.toTimestamp(dto.getPublicstart()) );
+		}
 		if(dto.getEntryStartTime() == null) {
 			//未指定の場合は公開と同時
-			tornEntity.setEntryStartTime(Exchange.toTimestamp(dto.getPublicstart()));
+			tornEntity.setEntryStartTime(tornEntity.getPublicTime());
 		}else {
 			tornEntity.setEntryStartTime(Exchange.toTimestamp(dto.getEntryStartTime()));
 		}
