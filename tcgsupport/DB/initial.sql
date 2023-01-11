@@ -1,0 +1,1 @@
+insert into series_tbl(name,discription,icon) values("指定なし","","");

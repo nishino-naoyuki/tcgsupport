@@ -35,18 +35,6 @@ public class SeriesTblEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer seriesId;
 
-	/** 新規テーブル. */
-	private UserTblEntity mainOrganizerIduserTbl;
-
-	/** 新規テーブル. */
-	private UserTblEntity subOrganizerId1userTbl;
-
-	/** 新規テーブル. */
-	private UserTblEntity subOrganizerId2userTbl;
-
-	/** 新規テーブル. */
-	private UserTblEntity subOrganizerId3userTbl;
-
 	/** name. */
 	private String name;
 

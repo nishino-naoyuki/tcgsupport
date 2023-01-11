@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -39,6 +40,14 @@ public class Exchange {
 	 */
 	public static Timestamp toTimestamp(LocalDateTime localDateTime) {
 		return Timestamp.valueOf(localDateTime);
+	}
+	/**
+	 * LocalDateTimeをTimestampに変換する
+	 * @param localDateTime
+	 * @return
+	 */
+	public static Timestamp toTimestamp(LocalDate localDate) {
+		return Timestamp.valueOf(LocalDateTime.of(localDate,LocalTime.of(0,0,0)));
 	}
 	/**
 	 * LocalDateTimeを指定された文字列ん変換する
