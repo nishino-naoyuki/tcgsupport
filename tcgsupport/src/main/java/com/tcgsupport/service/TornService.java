@@ -11,9 +11,7 @@ import com.tcgsupport.repository.TornRepository;
 import com.tcgsupport.util.Exchange;
 
 @Service
-public class TornService {
-	@Autowired
-	TornRepository tornRepository;
+public class TornService extends ServiceBase {
 
 	public void insert(TornRegisterConfirmDto dto,Integer orgId) {
 		//enttyを取得

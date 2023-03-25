@@ -11,17 +11,20 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tcgsupport.dto.InsertUserDto;
 import com.tcgsupport.dto.TornRegisterConfirmDto;
 import com.tcgsupport.form.EntryTornamentForm;
 import com.tcgsupport.form.RegisterTornamentInfoForm;
+import com.tcgsupport.form.SeriesForm;
 import com.tcgsupport.param.LocalEnum;
 import com.tcgsupport.param.MethodEnum;
 import com.tcgsupport.param.RegiTypeEnum;
 import com.tcgsupport.param.RegulationEnum;
 import com.tcgsupport.param.SessionConst;
+import com.tcgsupport.service.SeriesService;
 import com.tcgsupport.service.TornService;
 import com.tcgsupport.service.UserService;
 import com.tcgsupport.util.Exchange;
@@ -38,6 +41,9 @@ public class TornamentController {
 	TornService tornService;
 	
 	@Autowired
+	SeriesService seriesService;
+	
+	@Autowired
 	HttpSession session;
 	
 	/**
@@ -46,7 +52,7 @@ public class TornamentController {
 	 * @param form
 	 * @return
 	 */
-	@RequestMapping(value= {"torn/entry"}, method=RequestMethod.GET)
+	@RequestMapping(value= {"/torn/entry"}, method=RequestMethod.GET)
 	public ModelAndView entry(ModelAndView mv,EntryTornamentForm form) {
 		//既に登録があるか？
 		if( userService.isExist(form.getMail())) {
@@ -61,13 +67,26 @@ public class TornamentController {
 		return mv;
 	}
 	
-	@RequestMapping(value= {"torn/disp"}, method=RequestMethod.GET)
+	/**
+	 * 登録画面表示
+	 * @param mv
+	 * @param registerTornamentInfoForm
+	 * @return
+	 */
+	@RequestMapping(value= {"/torn/register"}, method=RequestMethod.GET)
 	public ModelAndView dispay(ModelAndView mv,RegisterTornamentInfoForm registerTornamentInfoForm) {
 		mv.setViewName("torn_register");
 		return mv;
 	}
 
-	@RequestMapping(value= {"torn/confirm"}, method=RequestMethod.POST)
+	/**
+	 * 登録確認画面
+	 * @param mv
+	 * @param registerTornamentInfoForm
+	 * @param error
+	 * @return
+	 */
+	@RequestMapping(value= {"/torn/confirm"}, method=RequestMethod.POST)
 	public ModelAndView confirm(ModelAndView mv,
 			@Validated RegisterTornamentInfoForm registerTornamentInfoForm,
 			BindingResult error) {
@@ -86,7 +105,12 @@ public class TornamentController {
 		return mv;
 	}
 	
-	@RequestMapping(value= {"torn/register"}, method=RequestMethod.POST)
+	/**
+	 * 登録処理
+	 * @param mv
+	 * @return
+	 */
+	@RequestMapping(value= {"/torn/register"}, method=RequestMethod.POST)
 	public String register(
 			ModelAndView mv) {
 		String resultMsg = "登録に失敗しました";
@@ -101,7 +125,22 @@ public class TornamentController {
 		
 		return resultMsg;
 	}
+
+	@RequestMapping(value = { "/series/register" }, method = RequestMethod.POST)
+	@ResponseBody
+	public Object registerSeriese(
+			SeriesForm seriesForm,
+			ModelAndView mv) {
+		
+		//既に存在するタイトルか？
+		if( seriesService.isExist(seriesForm.getTitle())) {
+			return "alreadyexist";
+		}
 	
+		seriesService.insert(seriesForm);
+		
+		return "OK";
+	}
 	/*--private method--*/
 	/**
 	 * 新規挿入用のデータを作成する

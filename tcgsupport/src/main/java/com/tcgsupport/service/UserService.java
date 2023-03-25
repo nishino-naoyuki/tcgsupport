@@ -19,12 +19,7 @@ import com.tcgsupport.util.Exchange;
 import com.tcgsupport.util.Token;
 
 @Service
-public class UserService {
-	@Autowired 
-	UserRepository userRepository;
-	
-	@Autowired 
-	ProvUserRepository provUserRepository;
+public class UserService extends ServiceBase {
 	
 	/**
 	 * ログイン処理

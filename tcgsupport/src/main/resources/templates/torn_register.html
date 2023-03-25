@@ -205,19 +205,48 @@
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+	        <h5 class="modal-title" id="staticBackdropLabel">シリーズ名登録</h5>
 	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	      </div>
 	      <div class="modal-body">
-	        ...
+			<div class="form-floating mb-4">
+				<input type="text" class="form-control" id="seriesinput" name="seriesinput" placeholder="シリーズ名">
+				<label for="seriesinput">シリーズ名</label>
+			</div>
+			<div class="form-floating mb-4">
+				<textarea class="form-control" name="seriesDescription" placeholder="Leave a comment here"
+				         		id="seriesDescription" style="height: 300px;" th:field="*{description}"></textarea>
+				<label for="description">詳細</label>
+			</div>
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary">Understood</button>
+	        <button type="button" id="seriesEntryBtn" class="btn btn-primary">登録</button>
 	      </div>
 	    </div>
 	  </div>
 	</div>
 </body>
-
+<script th:inline="javascript">
+	const seriesinput = document.getElementById('seriesinput');
+	const seriesDescription = document.getElementById('seriesDescription');
+	const seriesEntryBtn = document.getElementById('seriesEntryBtn');
+	
+	seriesEntryBtn.addEventListener('click',()=>{
+		const formData = new FormData();
+		formData.append('title',seriesinput.value );
+		formData.append('seriesDescription',seriesDescription.value );
+		
+	    const url = /*[[@{/series/register}]]*/ "/series/register";
+	 	fetch(url,{method:"post",body: formData})
+	       //レスポンスの受け取り
+	       .then( response => response.json()).then(result => {
+				countcard.innerHTML = result.submitCount+"回";
+				rankingcard.innerHTML = result.rank+"位";
+				totalscorecard.innerHTML = result.totalScore+"点";
+				gettime.innerHTML = result.getTime+" 現在";
+			});
+	
+	}
+</script>
 </html>
